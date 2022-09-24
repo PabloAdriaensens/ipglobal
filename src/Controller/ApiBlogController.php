@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Factory\JsonResponseFactory;
-use App\Service\BlogFormatter;
-use App\Service\JsonPlaceholderApi;
+use App\Service\PostsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,20 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiBlogController extends AbstractController
 {
-    #[Route('/api/posts/{id}', name: 'fetch_api_post', methods: ['GET'])]
-    public function fetch($id): JsonResponse
+    #[Route('/api/posts', name: 'app_api_posts', methods: ['GET'])]
+    public function index(): JsonResponse
     {
-        $client = new JsonPlaceholderApi();
-        $response = $client->getByParameters(['ids' => $id]);
         $json_response_factory = new JsonResponseFactory();
 
-        $post = (new BlogFormatter())->specificPost($response, (int)$id);
+        $posts = (new PostsService())->getPosts();
 
-        if (!empty($post)) {
-            return $json_response_factory->success($post);
-        }
-
-        return $json_response_factory->error('Invalid syntax for this request was provided.', 404);
+        return $json_response_factory->success($posts);
     }
 
     #[Route('/api/posts', name: 'post_api_post', methods: ['POST'])]
@@ -36,12 +29,12 @@ class ApiBlogController extends AbstractController
 
         $parameter = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $post = (new BlogFormatter())->validatePost($parameter);
+        $validPost = (new PostsService())->validatePost($parameter);
 
-        if (!empty($post)) {
-            return $json_response_factory->success($post);
+        if (!$validPost) {
+            return $json_response_factory->error('Invalid syntax for this request was provided.', 401);
         }
 
-        return $json_response_factory->error('Invalid syntax for this request was provided.', 404);
+        return $json_response_factory->success($parameter);
     }
 }

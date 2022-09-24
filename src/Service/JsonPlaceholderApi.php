@@ -12,12 +12,13 @@ class JsonPlaceholderApi
     private string $base_uri = 'https://jsonplaceholder.typicode.com';
 
     /**
-     * @param $params
+     * @param $route
+     * @param array $params
      * @return array
      * @throws GuzzleException
      */
-    public function getByParameters($params): array
+    public function getByParameters($route, array $params = []): array
     {
-        return (new JsonPlaceholderApiClient($this->base_uri))->getByParameters("/posts", $params);
+        return (new JsonPlaceholderApiClient($this->base_uri))->getByParameters($route, $params);
     }
 }
