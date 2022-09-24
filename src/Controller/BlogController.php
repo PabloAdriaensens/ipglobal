@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    #[Route('/posts', name: 'app_posts')]
+    #[Route('/posts', name: 'app_posts', methods: ['GET'])]
     public function index(): JsonResponse
     {
         $client = new JsonPlaceholderApi();

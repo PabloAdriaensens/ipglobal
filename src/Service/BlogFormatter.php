@@ -21,4 +21,21 @@ class BlogFormatter
 
         return $specificPost;
     }
+
+    /**
+     * @param $post
+     * @return array
+     */
+    public function validatePost($post): array
+    {
+        $apiId = 100;
+        if (is_string($post['title']) && is_string($post['body']) && is_int($post['userId'])) {
+            $apiId++;
+            $post['id'] = $apiId;
+        } else {
+            $post = [];
+        }
+
+        return $post;
+    }
 }
