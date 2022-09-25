@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiBlogController extends AbstractController
 {
-    #[Route('/api/posts', name: 'app_api_posts', methods: ['GET'])]
+    #[Route('/api/posts', name: 'api_posts', methods: ['GET'])]
     public function index(): JsonResponse
     {
         $json_response_factory = new JsonResponseFactory();

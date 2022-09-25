@@ -15,9 +15,6 @@ RUN apt update \
     && apt install -y git acl openssl openssh-client wget zip \
     && apt install -y libpng-dev zlib1g-dev libzip-dev libxml2-dev libicu-dev \
     && docker-php-ext-install intl pdo zip \
-    # for Postgres
-    && apt install -y libpq-dev \
-    && docker-php-ext-install pdo_pgsql \
     # for XDEBUG
     && pecl install xdebug \
     # enable Docker extensions
@@ -37,6 +34,16 @@ USER appuser
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 USER root
 RUN mv /home/appuser/.symfony5/bin/symfony /usr/local/bin/symfony
+
+## Install node
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    npm
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
+RUN npm install webpack-notifier@^1.6.0 --save-dev && \
+    npm install -D tailwindcss postcss-loader purgecss-webpack-plugin glob-all path
 
 # Config XDEBUG
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

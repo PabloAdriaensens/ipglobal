@@ -21,25 +21,6 @@ services:
       - '1000:8000'
     networks:
       - ipglobal-php81-symfony54-network
-    depends_on:
-      - ipglobal-php81-symfony54-postgres
-
-  ipglobal-php81-symfony54-postgres:
-    container_name: ipglobal-php81-symfony54-postgres
-    image: postgres:14-alpine
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: passwd
-      POSTGRES_DB: postgres_ipglobal
-    volumes:
-      - ipglobal-php81-symfony54-pgsql-data:/var/lib/postgresql/data
-    networks:
-      - ipglobal-php81-symfony54-network
 
 networks:
   ipglobal-php81-symfony54-network:
-
-volumes:
-  ipglobal-php81-symfony54-pgsql-data:
