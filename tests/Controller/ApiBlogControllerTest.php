@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApiBlogControllerTest extends WebTestCase
 {
+    /**
+     * @var KernelBrowser
+     */
     private KernelBrowser $client;
 
     /**

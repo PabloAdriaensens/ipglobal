@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Factory\JsonResponseFactory;
-use App\Service\JsonPlaceholderApi;
 use App\Service\PostsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
